@@ -7,7 +7,7 @@ function App() {
   return (
     (async () => {
       const store = new NCList({
-         baseUrl: `https://s3.amazonaws.com/agrjbrowse/MOD-jbrowses/WormBase/WS286/c_elegans_PRJNA13758/`,
+         baseUrl: 'https://s3.amazonaws.com/agrjbrowse/MOD-jbrowses/WormBase/WS286/c_elegans_PRJNA13758/',
          urlTemplate: 'tracks/Curated_Genes/{refseq}/trackData.jsonz',
          readFile: url => new RemoteFile(url).readFile(),
       })
