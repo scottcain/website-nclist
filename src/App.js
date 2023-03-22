@@ -1,24 +1,29 @@
 import logo from './logo.svg';
 import './App.css';
+import { RemoteFile } from 'generic-filehandle'
+import NCList from '@gmod/nclist'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    (async () => {
+      const store = new NCList({
+         baseUrl: `https://s3.amazonaws.com/agrjbrowse/MOD-jbrowses/WormBase/WS286/c_elegans_PRJNA13758/`,
+         urlTemplate: 'tracks/Curated_Genes/{refseq}/trackData.jsonz',
+         readFile: url => new RemoteFile(url).readFile(),
+      })
+
+      for await (const feature of store.getFeatures({
+         refName: 'I',
+         start: 5720822,
+         end: 5732439,
+      })) {
+           console.log(
+              `got feature at ${feature.get('seq_id')}:${feature.get(
+                  'start',
+                )}-${feature.get('end')}`,
+           )
+      }
+    })()
   );
 }
 
